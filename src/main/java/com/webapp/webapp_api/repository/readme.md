@@ -1,0 +1,1 @@
+Veritabani islemlerini yapar JpaRepository, CrudRepository gibi arayuzleri kullanir bu sayede save, findById, delete gibi islemleri kolayca yapabiliriz.

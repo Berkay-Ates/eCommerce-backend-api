@@ -1,0 +1,1 @@
+Is mantigini icerir, controllerdan gelen istekleri isler ve repository ile veri etkilesimini yonetir. 
