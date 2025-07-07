@@ -1,5 +1,7 @@
 package com.webapp.webapp_api.service.customer;
 
+import java.util.Optional;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -7,16 +9,19 @@ import com.webapp.webapp_api.dto.customer.CustomerLoginDTO;
 import com.webapp.webapp_api.dto.customer.CustomerRegisterDTO;
 import com.webapp.webapp_api.model.Customer;
 import com.webapp.webapp_api.repository.customer.CustomerRepository;
+import com.webapp.webapp_api.service.mail.MailService;
 
 @Service
 public class CustomerService {
 
     private final CustomerRepository customerRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final MailService mailService;
 
-    public CustomerService(CustomerRepository customerRepository) {
+    public CustomerService(CustomerRepository customerRepository,MailService mailService) {
         this.customerRepository = customerRepository;
-        this.passwordEncoder = new BCryptPasswordEncoder(); 
+        this.passwordEncoder = new BCryptPasswordEncoder();
+        this.mailService = mailService;
     }
 
     public Customer register(CustomerRegisterDTO dto) {
@@ -29,6 +34,9 @@ public class CustomerService {
         customer.setEmail(dto.getEmail());
         customer.setPassword(passwordEncoder.encode(dto.getPassword()));
         customer.setSurname(dto.getSurname());
+
+        mailService.sendVerificationEmail(customer.getEmail(), customer.getEmail());
+
         return customerRepository.save(customer);
     }
 
@@ -42,4 +50,19 @@ public class CustomerService {
 
         return customer; 
     }
+
+    public String verifyEmail(String token) {
+        Optional<Customer> customerOpt = customerRepository.findByEmail(token);
+
+        if (customerOpt.isEmpty()) {
+            throw new IllegalArgumentException("Invalid or expired token.");
+        }
+
+        Customer customer = customerOpt.get();
+        customer.setVerified(true);
+        customerRepository.save(customer);
+
+        return "Email successfully verified!";
+    }
+
 }
