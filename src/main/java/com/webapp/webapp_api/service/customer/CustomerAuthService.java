@@ -62,7 +62,7 @@ public class CustomerAuthService {
         customer.setVerified(true);
         customerRepository.save(customer);
 
-        return "Email successfully verified!";
+        return "Customer email successfully verified!";
     }
 
 }
