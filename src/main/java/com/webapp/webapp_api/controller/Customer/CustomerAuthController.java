@@ -36,4 +36,15 @@ public class CustomerAuthController {
         String token = jwtService.generateToken(customer.getEmail());
         return ResponseEntity.ok(token);
     }
+
+    @GetMapping("/verify")
+    public ResponseEntity<String> verifyEmail(@RequestParam String token) {
+        try {
+            String message = customerService.verifyEmail(token);
+            return ResponseEntity.ok(message);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+    
 }
