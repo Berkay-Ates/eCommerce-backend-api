@@ -35,7 +35,7 @@ public class CustomerAuthService {
         customer.setPassword(passwordEncoder.encode(dto.getPassword()));
         customer.setSurname(dto.getSurname());
 
-        mailService.sendVerificationEmail(customer.getEmail(), customer.getEmail());
+        mailService.sendVerificationEmail(customer.getEmail(),"customer", customer.getEmail());
 
         return customerRepository.save(customer);
     }

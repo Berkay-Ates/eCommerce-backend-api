@@ -34,7 +34,7 @@ public class SellerAuthService {
         seller.setEmail(dto.getEmail());
         seller.setPassword(passwordEncoder.encode(dto.getPassword()));
 
-        mailService.sendVerificationEmail(seller.getEmail(), seller.getEmail());
+        mailService.sendVerificationEmail(seller.getEmail(),"seller", seller.getEmail());
 
         return sellerRepository.save(seller);
     }
