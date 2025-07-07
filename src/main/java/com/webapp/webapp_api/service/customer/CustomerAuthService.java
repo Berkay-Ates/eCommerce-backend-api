@@ -12,13 +12,13 @@ import com.webapp.webapp_api.repository.customer.CustomerRepository;
 import com.webapp.webapp_api.service.mail.MailService;
 
 @Service
-public class CustomerService {
+public class CustomerAuthService {
 
     private final CustomerRepository customerRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final MailService mailService;
 
-    public CustomerService(CustomerRepository customerRepository,MailService mailService) {
+    public CustomerAuthService(CustomerRepository customerRepository,MailService mailService) {
         this.customerRepository = customerRepository;
         this.passwordEncoder = new BCryptPasswordEncoder();
         this.mailService = mailService;
