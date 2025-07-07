@@ -10,7 +10,7 @@ import com.webapp.webapp_api.security.jwt.JwtTokenService;
 import com.webapp.webapp_api.service.customer.CustomerAuthService;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/auth/customer")
 public class CustomerAuthController {
 
     private final CustomerAuthService customerService;
