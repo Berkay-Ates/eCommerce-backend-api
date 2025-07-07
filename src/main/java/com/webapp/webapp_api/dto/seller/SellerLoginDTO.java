@@ -8,7 +8,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class SellerLoginDTO {
-
     @Email(message = "Valid email is required")
     @NotBlank(message = "Email is required")
     private String email;

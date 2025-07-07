@@ -54,5 +54,4 @@ public class SellerAuthController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-    
 }
