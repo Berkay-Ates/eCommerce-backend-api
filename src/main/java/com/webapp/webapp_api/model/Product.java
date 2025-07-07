@@ -1,5 +1,6 @@
 package com.webapp.webapp_api.model;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -41,10 +42,13 @@ public class Product {
     private String description;
 
     @Column(nullable = false)
-    private Long stockQuantity;
+    private Long stockQuantity=0L;
 
     @Column(nullable = false)
     private String photoUrl;
+
+    @Column(nullable = false, precision = 10, scale = 2)
+    private BigDecimal price=BigDecimal.ZERO;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "seller_id", nullable = false)

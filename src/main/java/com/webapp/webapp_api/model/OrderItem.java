@@ -41,10 +41,10 @@ public class OrderItem {
     private Product product;
 
     @Column(nullable = false)
-    private Long quantity;
+    private Long quantity=0L;
 
     @Column(nullable = false, precision = 10, scale = 2)
-    private BigDecimal unitPrice;
+    private BigDecimal unitPrice=BigDecimal.ZERO;
 
     @CreationTimestamp
     @Column(updatable = false)
