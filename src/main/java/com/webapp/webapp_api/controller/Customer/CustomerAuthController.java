@@ -33,6 +33,8 @@ public class CustomerAuthController {
         Customer customer = customerService.login(loginDTO);
         if (customer == null) return ResponseEntity.status(401).body("Invalid credentials");
 
+        if (!customer.isVerified()) return ResponseEntity.status(403).body("The account is unverified");         
+
         String token = jwtService.generateToken(customer.getEmail());
         return ResponseEntity.ok(token);
     }
