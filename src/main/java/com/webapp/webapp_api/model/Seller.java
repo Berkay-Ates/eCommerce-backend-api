@@ -49,4 +49,7 @@ public class Seller {
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime createdAt;
+    
+    @Column(nullable = false)
+    private boolean isVerified = false;
 }

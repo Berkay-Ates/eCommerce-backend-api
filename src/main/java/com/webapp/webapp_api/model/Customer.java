@@ -51,4 +51,7 @@ public class Customer {
 
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal money=BigDecimal.ZERO;
+
+    @Column(nullable = false)
+    private boolean isVerified = false;
 }
