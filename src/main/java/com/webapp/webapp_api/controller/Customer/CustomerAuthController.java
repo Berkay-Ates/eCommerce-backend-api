@@ -1,5 +1,7 @@
 package com.webapp.webapp_api.controller.Customer;
 
+import java.util.Map;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,21 +24,22 @@ public class CustomerAuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody CustomerRegisterDTO registerDTO) {
+    public ResponseEntity<Map<String, String>> register(@RequestBody CustomerRegisterDTO registerDTO) {
         Customer registered = customerService.register(registerDTO);
-        String token = jwtService.generateToken(registered.getEmail());
-        return ResponseEntity.ok(token);
+        String jwtToken = jwtService.generateToken(registered.getEmail());
+        Map<String, String> response = Map.of("token", jwtToken);
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody CustomerLoginDTO loginDTO) {
+    public ResponseEntity<Map<String, String>> login(@RequestBody CustomerLoginDTO loginDTO) {
         Customer customer = customerService.login(loginDTO);
-        if (customer == null) return ResponseEntity.status(401).body("Invalid credentials");
+        if (customer == null) return ResponseEntity.status(401).body(Map.of("error", "Invalid credentials"));
 
-        if (!customer.isVerified()) return ResponseEntity.status(403).body("The account is unverified");         
+        if (!customer.isVerified()) return ResponseEntity.status(403).body(Map.of("error", "The account is unverified"));
 
         String token = jwtService.generateToken(customer.getEmail());
-        return ResponseEntity.ok(token);
+        return ResponseEntity.ok(Map.of("token", token));
     }
 
     @GetMapping("/verify")
