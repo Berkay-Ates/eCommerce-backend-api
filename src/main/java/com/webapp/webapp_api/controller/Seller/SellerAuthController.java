@@ -1,5 +1,7 @@
 package com.webapp.webapp_api.controller.Seller;
 
+import java.util.Map;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,22 +29,26 @@ public class SellerAuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody SellerRegisterDTO registerDTO) {       
+    public ResponseEntity<Map<String, String>> register(@RequestBody SellerRegisterDTO registerDTO) {       
         Seller registeredSeller = sellerService.register(registerDTO);
         String jwtToken = jwtService.generateToken(registeredSeller.getEmail());       
-        return ResponseEntity.ok(jwtToken);
+        Map<String, String> response = Map.of("token", jwtToken);
+        return ResponseEntity.ok(response);
     }
 
-
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody SellerLoginDTO loginDTO) {
+    public ResponseEntity<Map<String, String>> login(@RequestBody SellerLoginDTO loginDTO) {
         Seller seller = sellerService.login(loginDTO);
-        if (seller == null) return ResponseEntity.status(401).body("Invalid credentials");
+        if (seller == null) {
+            return ResponseEntity.status(401).body(Map.of("error", "Invalid credentials"));
+        }
 
-        if (!seller.isVerified()) return ResponseEntity.status(403).body("The account is unverified");         
+        if (!seller.isVerified()) {
+            return ResponseEntity.status(403).body(Map.of("error", "The account is unverified"));
+        }
 
         String token = jwtService.generateToken(seller.getEmail());
-        return ResponseEntity.ok(token);
+        return ResponseEntity.ok(Map.of("token", token));
     }
 
     @GetMapping("/verify")
