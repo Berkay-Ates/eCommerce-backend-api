@@ -1,5 +1,6 @@
 package com.webapp.webapp_api.service.seller;
 
+import java.beans.Transient;
 import java.util.Optional;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -24,6 +25,7 @@ public class SellerAuthService {
         this.mailService = mailService;
     }
 
+    @Transient
     public Seller register(SellerRegisterDTO dto) {
         if (sellerRepository.existsByEmail(dto.getEmail())) {
             throw new RuntimeException("Email is already registered");
@@ -50,7 +52,7 @@ public class SellerAuthService {
         return seller; 
     }
 
-
+    @Transient
     public String verifyEmail(String token) {
         Optional<Seller> sellerOpt = sellerRepository.findByEmail(token);
 
