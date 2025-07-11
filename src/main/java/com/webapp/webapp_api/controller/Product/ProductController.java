@@ -4,7 +4,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.webapp.webapp_api.dto.product.ProductDTO;
-import com.webapp.webapp_api.model.Product;
 import com.webapp.webapp_api.service.product.ProductService;
 
 import java.util.List;
@@ -29,20 +28,20 @@ public class ProductController {
     }
 
     @PostMapping("/createProduct")
-    public ResponseEntity<Product> createProduct(@RequestBody ProductDTO productDTO) {
-        Product product = productService.create(productDTO);
+    public ResponseEntity<ProductDTO> createProduct(@RequestBody ProductDTO productDTO) {
+        ProductDTO product = productService.create(productDTO);
         return ResponseEntity.ok(product);
     }
 
     @PutMapping("/updateProduct/{id}")
-    public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody ProductDTO productDTO) {
-        Product updatedProduct = productService.update(id, productDTO ) ;
+    public ResponseEntity<ProductDTO> updateProduct(@PathVariable Long id, @RequestBody ProductDTO productDTO) {
+        ProductDTO updatedProduct = productService.update(id, productDTO ) ;
         return ResponseEntity.ok(updatedProduct);
     }
 
     @PatchMapping("/updateProduct/{id}")
-    public ResponseEntity<Product> patchUpdateProduct(@PathVariable Long id, @RequestBody ProductDTO productDTO) {
-        Product updatedProduct = productService.update(id, productDTO);
+    public ResponseEntity<ProductDTO> patchUpdateProduct(@PathVariable Long id, @RequestBody ProductDTO productDTO) {
+        ProductDTO updatedProduct = productService.update(id, productDTO);
         return ResponseEntity.ok(updatedProduct);
     }
     

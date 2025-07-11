@@ -30,7 +30,7 @@ public class ProductService {
     }
 
     @Transactional
-    public Product create(ProductDTO productDTO) {
+    public ProductDTO create(ProductDTO productDTO) {
         Product product = new Product();
 
         product.setName(productDTO.getName());
@@ -46,7 +46,8 @@ public class ProductService {
         Category category = categoryRepository.getReferenceById(productDTO.getCategoryId());
         product.setCategory(category);
 
-        return productRepository.save(product);
+        productRepository.save(product);
+        return productDTO; 
     }
 
     public List<ProductDTO> getAll() {
@@ -82,7 +83,7 @@ public class ProductService {
     }
 
     @Transient
-    public Product update(Long id, ProductDTO productDTO) {
+    public ProductDTO update(Long id, ProductDTO productDTO) {
         Product existingProduct = productRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Product not found"));
 
@@ -100,7 +101,8 @@ public class ProductService {
         existingProduct.setUpdatedAt(productDTO.getUpdatedAt());
         existingProduct.setStockQuantity(productDTO.getStockQuantity());
 
-        return productRepository.save(existingProduct);
+        productRepository.save(existingProduct);
+        return productDTO; 
     }
 
     @Transient
